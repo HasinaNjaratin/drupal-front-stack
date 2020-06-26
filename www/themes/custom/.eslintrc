@@ -1,0 +1,31 @@
+{
+    "root": true,
+    "extends": [
+      "standard",
+      "jquery",
+      "plugin:prettier/recommended",
+      "prettier/flowtype",
+      "prettier/standard"
+    ],
+    "plugins": ["prettier"],
+    "globals": {
+      "Drupal": true,
+      "drupalSettings": true,
+      "drupalTranslations": true,
+      "domready": true,
+      "jQuery": true,
+      "_": true,
+      "matchMedia": true,
+      "Backbone": true,
+      "Modernizr": true,
+      "Popper": true,
+      "Sortable": true,
+      "CKEDITOR": true
+    },
+    "rules": {
+      "prettier/prettier": "error",
+      "prefer-const": "error",
+      "no-unused-vars": ["warn"],
+      "operator-linebreak": ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" } }]
+    }
+  }
