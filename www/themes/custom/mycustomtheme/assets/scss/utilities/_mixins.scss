@@ -1,73 +1,99 @@
 // Breakpoint up.
 @mixin media-up($point) {
-    // Small devices (landscape phones, 576px and up)
-    @if $point == mobile {
-        @media (min-width: 576px) { @content; }
+  // Small devices (landscape phones, 576px and up)
+  @if $point == mobile {
+    @media (min-width: 576px) {
+      @content;
     }
+  }
 
-    // Medium devices (tablets, 768px and up)
-    @else if $point == tablet {
-        @media (min-width: 768px) { @content; }
+  // Medium devices (tablets, 768px and up)
+  @else if $point == tablet {
+    @media (min-width: 768px) {
+      @content;
     }
+  }
 
-    // Large devices (desktops, 992px and up)
-    @else if $point == desktop {
-      @media (min-width: 992px) { @content; }
+  // Large devices (desktops, 992px and up)
+  @else if $point == desktop {
+    @media (min-width: 992px) {
+      @content;
     }
+  }
 
-    // Extra large devices (large desktops, 1200px and up)
-    @else if $point == large-desktop {
-      @media (min-width: 1200px) { @content; }
-   }    
+  // Extra large devices (large desktops, 1200px and up)
+  @else if $point == large-desktop {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
 }
 
 // Breakpoint only.
 @mixin media-only($point) {
-   // Extra small devices (portrait phones, less than 576px)
-   @if $point == small-mobile {
-      @media (max-width: 575.98px) { @content; }
-   }
+  // Extra small devices (portrait phones, less than 576px)
+  @if $point == small-mobile {
+    @media (max-width: 575.98px) {
+      @content;
+    }
+  }
 
-   // Small devices (landscape phones, 576px and up)
-   @else if $point == mobile {
-      @media (min-width: 576px) and (max-width: 767.98px) { @content; }
-   }
+  // Small devices (landscape phones, 576px and up)
+  @else if $point == mobile {
+    @media (min-width: 576px) and (max-width: 767.98px) {
+      @content;
+    }
+  }
 
-   // Medium devices (tablets, 768px and up)
-   @else if $point == tablet {
-      @media (min-width: 768px) and (max-width: 991.98px) { @content; }
-   }
+  // Medium devices (tablets, 768px and up)
+  @else if $point == tablet {
+    @media (min-width: 768px) and (max-width: 991.98px) {
+      @content;
+    }
+  }
 
-   // Large devices (desktops, 992px and up)
-   @else if $point == desktop {
-      @media (min-width: 992px) and (max-width: 1199.98px) { @content; }
-   }
+  // Large devices (desktops, 992px and up)
+  @else if $point == desktop {
+    @media (min-width: 992px) and (max-width: 1199.98px) {
+      @content;
+    }
+  }
 
-   // Extra large devices (large desktops, 1200px and up)
-   @else if $point == large-desktop {
-      @media (min-width: 1200px) { @content; }
-   }
+  // Extra large devices (large desktops, 1200px and up)
+  @else if $point == large-desktop {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
 }
 
 // Breakpoint down.
 @mixin media-down($point) {
-   // Extra small devices (portrait phones, less than 576px)
-   @if $point == small-mobile {
-      @media (max-width: 575.98px) { @content; }
-   }
+  // Extra small devices (portrait phones, less than 576px)
+  @if $point == small-mobile {
+    @media (max-width: 575.98px) {
+      @content;
+    }
+  }
 
-   // Small devices (landscape phones, less than 768px)
-   @else if $point == mobile {
-      @media (max-width: 767.98px) { @content; }
-   }
+  // Small devices (landscape phones, less than 768px)
+  @else if $point == mobile {
+    @media (max-width: 767.98px) {
+      @content;
+    }
+  }
 
-   // Medium devices (tablets, less than 992px)
-   @else if $point == tablet {
-      @media (max-width: 991.98px) { @content; }
-   }
+  // Medium devices (tablets, less than 992px)
+  @else if $point == tablet {
+    @media (max-width: 991.98px) {
+      @content;
+    }
+  }
 
-   // Large devices (desktops, less than 1200px)
-   @else if $point == desktop {
-      @media (max-width: 1199.98px) { @content; }
-   }
+  // Large devices (desktops, less than 1200px)
+  @else if $point == desktop {
+    @media (max-width: 1199.98px) {
+      @content;
+    }
+  }
 }

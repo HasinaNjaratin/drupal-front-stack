@@ -1,23 +1,25 @@
 @font-face {
-	font-family: "mycustomtheme";
-	src: url("mycustomtheme.eot?bff1f29c4f10253b072c9c82ea213fe2?#iefix") format("embedded-opentype"),
-url("mycustomtheme.woff2?bff1f29c4f10253b072c9c82ea213fe2") format("woff2"),
-url("mycustomtheme.woff?bff1f29c4f10253b072c9c82ea213fe2") format("woff"),
-url("mycustomtheme.ttf?bff1f29c4f10253b072c9c82ea213fe2") format("truetype"),
-url("mycustomtheme.svg?bff1f29c4f10253b072c9c82ea213fe2#mycustomtheme") format("svg");
+  font-family: 'mycustomtheme';
+  src: url('mycustomtheme.eot?bff1f29c4f10253b072c9c82ea213fe2?#iefix')
+      format('embedded-opentype'),
+    url('mycustomtheme.woff2?bff1f29c4f10253b072c9c82ea213fe2') format('woff2'),
+    url('mycustomtheme.woff?bff1f29c4f10253b072c9c82ea213fe2') format('woff'),
+    url('mycustomtheme.ttf?bff1f29c4f10253b072c9c82ea213fe2') format('truetype'),
+    url('mycustomtheme.svg?bff1f29c4f10253b072c9c82ea213fe2#mycustomtheme')
+      format('svg');
 }
 
 .mycustomthemeicon {
-	line-height: 1;
+  line-height: 1;
 }
 
-.mycustomthemeicon:before {
-	font-family: mycustomtheme !important;
-	font-style: normal;
-	font-weight: normal !important;
-	vertical-align: top;
+.mycustomthemeicon::before {
+  font-family: mycustomtheme !important;
+  font-style: normal;
+  font-weight: normal !important;
+  vertical-align: top;
 }
 
-.mycustomthemeicon-drupal:before {
-	content: "\f101";
+.mycustomthemeicon-drupal::before {
+  content: '\f101';
 }
