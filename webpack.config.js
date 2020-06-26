@@ -2,14 +2,14 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-
+const WebFontsGenerator = require('./webfonts.generator')
 
 // Utility variables.
-const argv = require('minimist')
+const argv = require('minimist')(process.argv)
 const dev = argv.mode === 'development'
 
 const style_loader = [
-    MiniCssExtractPlugin,
+    MiniCssExtractPlugin.loader,
     {
         loader: 'css-loader',
         options: {
@@ -62,10 +62,10 @@ let configWebpack = {
                         options: { sourceMap: dev }         
                     },
                     {
-                        loader: 'sass-ressources-loader',
+                        loader: 'sass-resources-loader',
                         options: {
                             sourceMap: dev,
-                            ressources: [
+                            resources: [
                                 `./${path_to_theme_dir}/${theme_name}/assets/scss/utilities/_variables.scss`,
                                 `./${path_to_theme_dir}/${theme_name}/assets/scss/utilities/_mixins.scss`
                             ]
@@ -106,12 +106,18 @@ let configWebpack = {
         ]
     },
     plugins: [
+        {
+            apply: (compiler) => {
+                compiler.hooks.beforeRun.tap('Generate webfonts', (compilation) => {
+                    WebFontsGenerator()
+                })
+            }
+        },
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css'
         }),
         new OptimizeCssAssetsPlugin({
-            cssProcessor: require('css-nano'),
             cssProcessorPluginOptions: {
                 preset: ['default', { discardComments: { removeAll: true }}]
             }

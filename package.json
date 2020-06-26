@@ -4,8 +4,9 @@
   "description": "Drupal front stack",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode developement",
+    "dev": "webpack --mode development",
     "build": "webpack",
+    "webfonts": "node -e 'require(\"./webfonts.generator.js\")()'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,6 +30,7 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
     "file-loader": "^6.0.0",
+    "fs-extra": "^9.0.1",
     "img-loader": "^3.0.1",
     "mini-css-extract-plugin": "^0.9.0",
     "minimist": "^1.2.5",
@@ -43,6 +45,7 @@
     "sass-resources-loader": "^2.0.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.0",
+    "webfonts-generator": "^0.4.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
   }
