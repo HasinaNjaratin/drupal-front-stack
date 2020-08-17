@@ -10,7 +10,7 @@
     "webpack-sites-dev": "webpack --cible sites --mode development",
     "webpack-sites-build": "webpack --cible sites --mode production",
     "clean-output-folder": "node -e 'require(\"./clean-output-folder.js\")()'",
-    "webfonts": "node -e 'require(\"./portal-webfonts.js\")()'",
+    "webfonts": "node -e 'require(\"./webfonts.generator.js\")()'",
     "lint-all": "npm run lint-module && npm run lint-theme",
     "lint-all-fix": "npm run lint-module-fix && npm run lint-theme-fix",
     "prettiercode-all": "npm run prettiercode-module && npm run prettiercode-theme",

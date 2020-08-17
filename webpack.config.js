@@ -6,7 +6,7 @@ const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const PortalWebFonts = require('./portal-webfonts')
+const WebFontsGenerator = require('./webfonts.generator')
 
 const argv = require('minimist')(process.argv)
 const dev = argv.mode === 'development'
@@ -62,10 +62,10 @@ let configWebpack = {
             options: {
               sourceMap: dev,
               resources: [
-                './web/themes/custom/*/src/scss/utilities/_variables.scss',
-                './web/themes/custom/*/src/scss/utilities/_mixins.scss',
-                './web/sites/*/themes/custom/*/src/scss/utilities/_variables.scss',
-                './web/sites/*/themes/custom/*/src/scss/utilities/_mixins.scss',
+                './www/themes/custom/*/src/scss/utilities/_variables.scss',
+                './www/themes/custom/*/src/scss/utilities/_mixins.scss',
+                './www/sites/*/themes/custom/*/src/scss/utilities/_variables.scss',
+                './www/sites/*/themes/custom/*/src/scss/utilities/_mixins.scss',
               ],
             },
           },
@@ -81,8 +81,8 @@ let configWebpack = {
               name: '[name].[ext][query]',
               outputPath: (url, resourcePath, context) => {
                 let relativePath = path.relative(context, resourcePath)
-                relativePath = relativePath.replace('web/themes/custom/', '')
-                relativePath = relativePath.replace('web/sites/', '')
+                relativePath = relativePath.replace('www/themes/custom/', '')
+                relativePath = relativePath.replace('www/sites/', '')
                 return relativePath
               },
             },
@@ -99,8 +99,8 @@ let configWebpack = {
           name: '[name].[ext][query]',
           outputPath: (url, resourcePath, context) => {
             let relativePath = path.relative(context, resourcePath)
-            relativePath = relativePath.replace('web/themes/custom/', '')
-            relativePath = relativePath.replace('web/sites/', '')
+            relativePath = relativePath.replace('www/themes/custom/', '')
+            relativePath = relativePath.replace('www/sites/', '')
             return relativePath
           },
         },
@@ -111,7 +111,7 @@ let configWebpack = {
     {
       apply: (compiler) => {
         compiler.hooks.beforeRun.tap('Generate webfonts', (compilation) => {
-          PortalWebFonts()
+          WebFontsGenerator()
         })
       },
     },

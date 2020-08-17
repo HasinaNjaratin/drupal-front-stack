@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 
-const path_to_sites = '../web/sites/'
+const path_to_sites = '../www/sites/'
 
 // Function to return source entries of all sites themes.
 const getWebpackAllSitesThemesEntries = () => {
@@ -47,7 +47,7 @@ const getWebpackSpecificSiteThemesEntries = (site) => {
       if (!theme.includes('.')) {
         webpack_site_entries[
           `${site}/themes/custom/${theme}/build/app`
-        ] = `./web/sites/${site}/themes/custom/${theme}/src/app.js`
+        ] = `./www/sites/${site}/themes/custom/${theme}/src/app.js`
       }
     })
   }
@@ -67,7 +67,7 @@ const getWebpackSitesThemesEntries = () => {
 module.exports = {
   entry: getWebpackSitesThemesEntries(),
   output: {
-    path: path.resolve('./web/sites/'),
+    path: path.resolve('./www/sites/'),
     filename: '[name].js',
     publicPath: '/sites/',
   },

@@ -3,7 +3,7 @@ const fs = require('fs')
 
 const getWebpackBaseThemesEntries = () => {
   let webpack_entries = {}
-  const path_to_theme = '../web/themes/custom/'
+  const path_to_theme = '../www/themes/custom/'
   // Get base custom themes name list.
   const directory_path = path.join(__dirname, path_to_theme)
   const list_directories = fs.readdirSync(directory_path, function (err) {
@@ -16,7 +16,7 @@ const getWebpackBaseThemesEntries = () => {
       if (!theme.includes('.')) {
         webpack_entries[
           `${theme}/build/app`
-        ] = `./web/themes/custom/${theme}/src/app.js`
+        ] = `./www/themes/custom/${theme}/src/app.js`
       }
     })
   }
@@ -26,7 +26,7 @@ const getWebpackBaseThemesEntries = () => {
 module.exports = {
   entry: getWebpackBaseThemesEntries(),
   output: {
-    path: path.resolve('./web/themes/custom/'),
+    path: path.resolve('./www/themes/custom/'),
     filename: '[name].js',
     publicPath: '/themes/custom/',
   },
