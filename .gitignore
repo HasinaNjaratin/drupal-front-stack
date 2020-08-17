@@ -1,1 +1,7 @@
 /node_modules
+
+# Ignore front built files and directories.
+www/themes/custom/*/src/fonts/webfonts/
+www/themes/custom/*/build/
+www/sites/*/themes/custom/*/src/fonts/webfonts/
+www/sites/*/themes/custom/*/build/

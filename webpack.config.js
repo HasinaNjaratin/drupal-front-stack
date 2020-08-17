@@ -1,138 +1,143 @@
-const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const WebFontsGenerator = require('./webfonts.generator')
+/**
+ * @file
+ */
 
-// Utility variables.
+const path = require('path')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const PortalWebFonts = require('./portal-webfonts')
+
 const argv = require('minimist')(process.argv)
 const dev = argv.mode === 'development'
 
-const style_loader = [
-    MiniCssExtractPlugin.loader,
-    {
-        loader: 'css-loader',
-        options: {
-            importLoaders: 1,
-            sourceMap: dev
-        }
-    }
+const configEntryOutput =
+  argv.cible === 'base'
+    ? require('./webpack/webpack.base-themes.config')
+    : require('./webpack/webpack.sites-themes.config')
+
+const styleLoader = [
+  MiniCssExtractPlugin.loader,
+  {
+    loader: 'css-loader',
+    options: {
+      importLoaders: 1,
+      sourceMap: dev,
+    },
+  },
 ]
 
-// Your specific conf here.
-const theme_name = 'mycustomtheme'
-const path_to_theme_dir = 'www/themes/custom'
-
 let configWebpack = {
-    // Then if you have to manage more theme, you can add items entry here.
-    entry: {
-        'mycustomtheme/build/bundle': `./${path_to_theme_dir}/${theme_name}/assets/app.js`,
-    },
-    output: {
-        path: path.resolve(`./${path_to_theme_dir}/`),
-        filename: '[name].js',
-        publicPath: '/themes/custom'
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: ['babel-loader']
+  ...configEntryOutput,
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: ['babel-loader'],
+      },
+      {
+        test: /\.css$/,
+        use: styleLoader,
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          ...styleLoader,
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: dev,
+              config: {
+                path: 'postcss.config.js',
+              },
             },
-            {
-                test: /\.css$/,
-                use: style_loader
+          },
+          {
+            loader: 'sass-loader',
+            options: { sourceMap: dev },
+          },
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              sourceMap: dev,
+              resources: [
+                './web/themes/custom/*/src/scss/utilities/_variables.scss',
+                './web/themes/custom/*/src/scss/utilities/_mixins.scss',
+                './web/sites/*/themes/custom/*/src/scss/utilities/_variables.scss',
+                './web/sites/*/themes/custom/*/src/scss/utilities/_mixins.scss',
+              ],
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    ...style_loader,
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            sourceMap: dev,
-                            config : {
-                                path: 'postcss.config.js'
-                            }
-                        }
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: { sourceMap: dev }         
-                    },
-                    {
-                        loader: 'sass-resources-loader',
-                        options: {
-                            sourceMap: dev,
-                            resources: [
-                                `./${path_to_theme_dir}/${theme_name}/assets/scss/utilities/_variables.scss`,
-                                `./${path_to_theme_dir}/${theme_name}/assets/scss/utilities/_mixins.scss`
-                            ]
-                        }
-                    }
-                ]
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: '[name].[ext][query]',
+              outputPath: (url, resourcePath, context) => {
+                let relativePath = path.relative(context, resourcePath)
+                relativePath = relativePath.replace('web/themes/custom/', '')
+                relativePath = relativePath.replace('web/sites/', '')
+                return relativePath
+              },
             },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192,
-                            name: '[name].[ext][query]',
-                            outputPath: (url, resourcePath, context) => {
-                                const relativePath = path.relative(context, resourcePath);
-                                return relativePath.replace(`${path_to_theme_dir}/`, '')
-                            }
-                        }
-                    },
-                    {
-                        loader: 'img-loader'
-                    }
-                ]
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext][query]',
-                    outputPath: (url, resourcePath, context) => {
-                        const relativePath = path.relative(context, resourcePath);
-                        return relativePath.replace(`${path_to_theme_dir}/`, '')
-                    }
-                }
-            }
-        ]
-    },
-    plugins: [
-        {
-            apply: (compiler) => {
-                compiler.hooks.beforeRun.tap('Generate webfonts', (compilation) => {
-                    WebFontsGenerator()
-                })
-            }
+          },
+          {
+            loader: 'img-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext][query]',
+          outputPath: (url, resourcePath, context) => {
+            let relativePath = path.relative(context, resourcePath)
+            relativePath = relativePath.replace('web/themes/custom/', '')
+            relativePath = relativePath.replace('web/sites/', '')
+            return relativePath
+          },
         },
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css'
-        }),
-        new OptimizeCssAssetsPlugin({
-            cssProcessorPluginOptions: {
-                preset: ['default', { discardComments: { removeAll: true }}]
-            }
-        })
+      },
     ],
-    optimization: {
-        minimizer: []
+  },
+  plugins: [
+    {
+      apply: (compiler) => {
+        compiler.hooks.beforeRun.tap('Generate webfonts', (compilation) => {
+          PortalWebFonts()
+        })
+      },
     },
-    watch: dev,
-    devtool: dev ? 'cheap-module-source-map' : false,
-    mode: dev ? 'development' : 'production'
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+  ],
+  watch: dev,
+  mode: dev ? 'development' : 'production',
+  devtool: dev ? 'cheap-module-source-map' : false,
+  optimization: {
+    minimizer: [],
+  },
 }
 
-if(!dev){
-    configWebpack.optimization.minimizer.push(new UglifyJsPlugin())
+if (!dev) {
+  configWebpack.optimization.minimizer.push(new UglifyJsPlugin())
+  configWebpack.plugins.push(
+    new OptimizeCssAssetsPlugin({
+      cssProcessor: require('cssnano'),
+      cssProcessorPluginOptions: {
+        preset: ['default', { discardComments: { removeAll: true } }],
+      },
+    })
+  )
 }
 
 module.exports = configWebpack
