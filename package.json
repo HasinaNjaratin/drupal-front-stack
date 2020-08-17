@@ -37,6 +37,9 @@
   },
   "author": "Hasina Rakotovahoaka <h.rakotovahoaka@export-entreprises.com>",
   "license": "ISC",
+  "resolutions": {
+    "serialize-javascript": "^4.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
@@ -64,7 +67,6 @@
     "minimist": "^1.2.5",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-css-variables": "^0.17.0",
-    "postcss-custom-properties": "^9.1.1",
     "postcss-loader": "^3.0.0",
     "postcss-mixins": "^6.2.3",
     "postcss-nested": "^4.2.1",
