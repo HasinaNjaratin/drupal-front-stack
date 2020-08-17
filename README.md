@@ -4,6 +4,7 @@ This project help to setup and configure best front stack for drupal using [webp
 
 - [Setup](#setup)
 - [Webpack](#webpack)
+- [Multisite](#multisite)
 - [Webfonts generator](#webfonts-generator)
 - [Code quality control](#code-quality-control)
 
@@ -21,18 +22,6 @@ npm i
 
 # Webpack
 
-### File manager
-You can specify you theme name by changing __theme_name__ variables (set 'mycustomtheme' in this project).
-
-Also, If you have __multiple theme__ you can add theme in webpack entry like :
- 
-```
-entry: {
-    'mycustomtheme1/build/bundle': `./${path_to_theme_dir}/mycustomtheme1/assets/app.js`,
-    'mycustomtheme2/build/bundle': `./${path_to_theme_dir}/mycustomtheme2/assets/app.js`,
-    ...
-},
-```
 
 ### Minify
 
@@ -53,6 +42,46 @@ npm run dev
 ### Hooks
 
 Before every build, webfonts are regenerated.
+
+
+# Multisite
+
+On all existing commands, by entering *env SITE = <site_name>* as a prefix, the operation is only carried out on the specified site theme and / or on the base theme.
+
+Examples:
+
+```
+npm run build
+```
+allows you to build all the assets of the base theme and all the sites.
+
+```
+env SITE=mySiteA npm run build 
+```
+allows you to build the assets of the base theme and the mySiteA site.
+
+```
+env SITE=mySiteB npm run webpack-sites-build
+```
+allows to build only the assets of the mySiteB site.
+
+### Other avalaible commands
+
+```
+npm run webpack-base-build
+```
+allows you to build only the assets of the base theme
+
+```
+npm run webpack-sites-build
+```
+allows to build only the assets of the sites
+
+```
+npm run webfonts
+```
+allows to generate fonts from svg. The svg files are placed in /src/fonts/svg/* then the fonts will be generated in /src/fonts/webfonts/*
+
 
 # Webfonts generator
 
